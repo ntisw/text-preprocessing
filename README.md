@@ -2,9 +2,10 @@
 * [ NLP Text Preprocessing: A Practical Guide and Template][1]
 * code implementing from https://gist.github.com/jiahao87/d57a2535c2ed7315390920ea9296d79f
 ## Required
-    - Microsoft Visual C++ 14.0 
-    - Python 3.x.x 64 bit 
-    - update pip to 20.x.x or latest
+* Microsoft Visual C++ 14.0 
+* Python 3.x.x 64 bit 
+* update pip to 20.x.x or latest
+    * using this command `python -m pip install --upgrade pip`
 # Libraries
 ### `pip install beautifulsoup4` [link](https://pypi.org/project/beautifulsoup4/)
 ### `pip install -U spacy` [link](https://spacy.io/usage)
