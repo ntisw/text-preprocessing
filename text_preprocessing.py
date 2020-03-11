@@ -100,20 +100,21 @@ def text_preprocessing(text, accented_chars=True, contractions=True,
 def read_write_csv(filename):
     text_t = []
     clean_t = []
+    clean_lists = []
     clean_default = []
-    with open('./data/'+filename+'.csv', mode='r',encoding='utf-8') as csv_file:
+    with open('./data/'+filename+'.csv', mode='r', encoding='utf-8') as csv_file:
         csv_reader = csv.DictReader(csv_file)
         line_count = 0
         for row in csv_reader:
             text = row["comment"]
             text_t.append(text)
-            clean_temp_arr = text_preprocessing(
+            clean_temp_list = text_preprocessing(
                 text, lemmatization=False, stop_words=False)
             clean_temp_default = text_preprocessing(text)
             clean_temp = ""
-
+            clean_lists.append(clean_temp_list)
             i = 0
-            for element in clean_temp_arr:
+            for element in clean_temp_list:
                 if i == 0:
                     clean_temp = element
                     i += 1
@@ -123,8 +124,8 @@ def read_write_csv(filename):
             clean_default.append(clean_temp_default)
             line_count += 1
         print(f'\tProcessed {line_count} lines.')
-    with open('./clean/'+filename+'_clean.csv', mode='w',newline='',encoding='utf-8') as clean_comment_file:
-        fieldnames = ['raw', 'clean', 'clean-default']
+    with open('./clean/'+filename+'_clean.csv', mode='w', newline='', encoding='utf-8') as clean_comment_file:
+        fieldnames = ['raw', 'clean_text', 'clean', 'clean-default']
         writer = csv.DictWriter(clean_comment_file, fieldnames=fieldnames)
         writer.writeheader()
         i = 0
@@ -132,8 +133,9 @@ def read_write_csv(filename):
             text_temp = text_t[i]
             clean_temp = clean_t[i]
             clean_temp_default = clean_default[i]
+            clean_temp_list = clean_lists[i]
             # print(clean_temp_default)
-            writer.writerow({'raw': text_temp, 'clean': clean_temp,
+            writer.writerow({'raw': text_temp, 'clean_text': clean_temp, 'clean': clean_temp_list,
                              'clean-default': clean_temp_default})
             i += 1
         print(f'\tWrote {line_count} lines.')
