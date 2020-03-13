@@ -1,0 +1,48 @@
+'''
+clean_text_1 = text_preprocessing(
+    text_1, punctuations=False, lemmatization=False, stop_words=False)
+clean_text_2 = text_preprocessing(text_2, lemmatization=False, stop_words=False)
+'''
+
+'''
+text_1 = "This is a :-) \n(cat/dog )?....but not a dog... cat.dog"
+text_2 = "This is a :-) \n(cat/dog )?....but not a dog... cat.dog"
+special characters:/
+punctuations::-)
+punctuations:(
+special characters:/
+punctuations:....
+punctuations:...
+['this', 'is', 'a', ':-)', '(', 'cat', 'dog)?', '....', 'but', 'not', 'a', 'dog', '...', 'cat.dog']
+['this', 'is', 'a', 'cat', 'dog)?', 'but', 'not', 'a', 'dog', 'cat.dog']
+'''
+'''
+text_1 = "This is a :-) \n(cat/dog)?....but not a dog... cat. dog"
+text_2 = "This is a :-) \n(cat/dog)?....but not a dog... cat. dog"
+preprocessing.py "
+special characters:/
+punctuations::-)
+punctuations:(
+special characters:/
+punctuations:....
+punctuations:...
+punctuations:.
+['this', 'is', 'a', ':-)', '(', 'cat', 'dog)?', '....', 'but', 'not', 'a', 'dog', '...', 'cat', '.', 'dog']
+['this', 'is', 'a', 'cat', 'dog)?', 'but', 'not', 'a', 'dog', 'cat', 'dog']
+'''
+'''
+text_1 = "This is a :-) \n(cat/dog )?....but not a dog... cat. dog"
+text_2 = "This is a :-) \n(cat/dog )?....but not a dog... cat. dog"
+preprocessing.py "
+special characters:/
+punctuations::-)
+punctuations:(
+special characters:/
+punctuations:)
+punctuations:?
+punctuations:....
+punctuations:...
+punctuations:.
+['this', 'is', 'a', ':-)', '(', 'cat', 'dog', ')', '?', '....', 'but', 'not', 'a', 'dog', '...', 'cat', '.', 'dog']
+['this', 'is', 'a', 'cat', 'dog', 'but', 'not', 'a', 'dog', 'cat', 'dog']
+'''

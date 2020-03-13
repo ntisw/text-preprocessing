@@ -4,7 +4,7 @@ import unidecode
 from word2number import w2n
 from pycontractions import Contractions
 import gensim.downloader as api
-
+import re
 import csv
 
 # nlp = spacy.load('en_core_web_md')
@@ -54,6 +54,14 @@ def text_preprocessing(text, accented_chars=True, contractions=True,
                        remove_html=True, remove_num=True, special_chars=True,
                        stop_words=True):
     """preprocess text with default option set to true for all steps"""
+
+    if punctuations == True:
+        text = text.replace(')', '')
+        text = re.sub(r'\,(?=,*\,)', '', text)
+
+        
+
+    
     if remove_html == True:  # remove html tags
         text = strip_html_tags(text)
     if extra_whitespace == True:  # remove extra whitespaces
@@ -66,9 +74,8 @@ def text_preprocessing(text, accented_chars=True, contractions=True,
         text = text.lower()
 
     doc = nlp(text)  # tokenise text
-
     clean_text = []
-
+    index = 0
     for token in doc:
         flag = True
         edit = token.text
@@ -78,6 +85,19 @@ def text_preprocessing(text, accented_chars=True, contractions=True,
         # remove punctuations
         if punctuations == True and token.pos_ == 'PUNCT' and flag == True:
             flag = False
+            edit = re.sub(r'\.(?=.*\.)', '', edit)
+            edit = re.sub(r'\-(?=-*\-)', '', edit)
+            if edit == "-" :
+                bf_pun = ""
+                af_pun = ""
+                if index != 0:
+                    bf_pun = doc[index-1].text
+                if index < len(doc):
+                    af_pun = doc[index+1].text
+                if re.match('[a-zA-Z]', bf_pun) and re.match('[a-zA-Z]', af_pun):
+                    clean_text.append(edit)
+            elif edit == "," or edit == ".":
+                clean_text.append(edit)
         # remove special characters
         if special_chars == True and token.pos_ == 'SYM' and flag == True:
             flag = False
@@ -93,7 +113,10 @@ def text_preprocessing(text, accented_chars=True, contractions=True,
             edit = token.lemma_
         # append tokens edited and not removed to list
         if edit != "" and flag == True:
+            edit = edit.replace('.', '. ')
             clean_text.append(edit)
+        index += 1
+
     return clean_text
 
 
@@ -115,17 +138,17 @@ def read_write_csv(filename):
             clean_lists.append(clean_temp_list)
             i = 0
             for element in clean_temp_list:
-                if i == 0:
-                    clean_temp = element
-                    i += 1
+                if i == 0 or element == "-" or element=="." or element == "," :
+                    clean_temp += element
                 else:
                     clean_temp += " " + element
+                i += 1
             clean_t.append(clean_temp)
             clean_default.append(clean_temp_default)
             line_count += 1
         print(f'\tProcessed {line_count} lines.')
     with open('./clean/'+filename+'_clean.csv', mode='w', newline='', encoding='utf-8') as clean_comment_file:
-        fieldnames = ['raw', 'clean_text', 'clean', 'clean-default']
+        fieldnames = ['raw', 'clean_text', 'clean_token']
         writer = csv.DictWriter(clean_comment_file, fieldnames=fieldnames)
         writer.writeheader()
         i = 0
@@ -134,9 +157,8 @@ def read_write_csv(filename):
             clean_temp = clean_t[i]
             clean_temp_default = clean_default[i]
             clean_temp_list = clean_lists[i]
-            # print(clean_temp_default)
-            writer.writerow({'raw': text_temp, 'clean_text': clean_temp, 'clean': clean_temp_list,
-                             'clean-default': clean_temp_default})
+            writer.writerow(
+                {'raw': text_temp, 'clean_text': clean_temp, 'clean_token': clean_temp_list})
             i += 1
         print(f'\tWrote {line_count} lines.')
 
@@ -144,7 +166,16 @@ def read_write_csv(filename):
 files = ["patong_google", "patong_trip", "promthep_google",
          "promthep_trip", "wat_google", "wat_trip"]
 
-
 for filename in files:
     print("Cleaning "+filename)
     read_write_csv(filename)
+'''
+text_1 = "This is a :-) \n(cat/dog)?....but papaya-pie about break fast,diner not a dog... cat.dog"
+text_2 = "This is a :-) \n(cat/dog)?....but papaya-pie about break fast,diner not a dog... cat.dog"
+clean_text_1 = text_preprocessing(
+    text_1, punctuations=False, lemmatization=False, stop_words=False)
+clean_text_2 = text_preprocessing(
+    text_2, lemmatization=False, stop_words=False)
+print(clean_text_1)
+print(clean_text_2)
+'''
