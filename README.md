@@ -14,6 +14,7 @@
 ### `pip install pycontractions` [link](https://pypi.org/project/pycontractions/)
 ### `pip install contractions` [link](https://pypi.org/project/contractions/)
 ### `pip install gensim` [link](https://pypi.org/project/gensim/)
+### `pip install num2words [link](https://pypi.org/project/num2words/)`
 
 
 ## Information In needed

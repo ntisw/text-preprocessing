@@ -11,7 +11,7 @@ def read_write_csv(filename):
             print(row["comment"])
             line_count += 1
         print(f'Processed {line_count} lines.')
-'''
+
     with open('./test/'+filename+'_clean.csv', mode='w',newline='',encoding='utf-8') as clean_comment_file:
         fieldnames = ['raw']
         writer = csv.DictWriter(clean_comment_file, fieldnames=fieldnames)
@@ -22,7 +22,7 @@ def read_write_csv(filename):
             print(i)
             print(": "+row)
             i += 1
-            '''
+            
 
 files = ["patong_google", "patong_trip", "promthep_google",
          "promthep_trip", "wat_google", "wat_trip"]
