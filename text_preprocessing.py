@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import spacy
 import unidecode
 from word2number import w2n
+from num2words import num2words
 from pycontractions import Contractions
 import gensim.downloader as api
 import re
@@ -106,8 +107,13 @@ def text_preprocessing(text, accented_chars=True, contractions=True,
                 and flag == True:
             flag = False
         # convert number words to numeric numbers
-        if convert_num == True and token.pos_ == 'NUM' and flag == True:
-            edit = w2n.word_to_num(token.text)
+        #if convert_num == True and token.pos_ == 'NUM' and flag == True:
+        #    edit = w2n.word_to_num(token.text)
+        # convert numeric numbers to number words
+        if convert_num == True and  token.text.isnumeric() \
+             and flag == True:
+            #print(token.text)
+            edit = num2words(token.text)
         # convert tokens to base form
         elif lemmatization == True and token.lemma_ != "-PRON-" and flag == True:
             edit = token.lemma_
@@ -132,7 +138,8 @@ def read_write_csv(filename):
             text = row["comment"]
             text_t.append(text)
             clean_temp_list = text_preprocessing(
-                text, lemmatization=False, stop_words=False)
+                text, lemmatization=False, stop_words=False
+                ,remove_num=False)
             clean_temp_default = text_preprocessing(text)
             clean_temp = ""
             clean_lists.append(clean_temp_list)
