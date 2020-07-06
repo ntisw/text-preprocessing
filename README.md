@@ -9,12 +9,14 @@
 # Libraries
 ### `pip install beautifulsoup4` [link](https://pypi.org/project/beautifulsoup4/)
 ### `pip install -U spacy` [link](https://spacy.io/usage)
+### `python -m spacy download en_core_web_sm` [link](https://spacy.io/usage)
 ### `pip install Unidecode` [link](https://pypi.org/project/Unidecode/)
 ### `pip install word2number` [link](https://pypi.org/project/word2number/)
 ### `pip install pycontractions` [link](https://pypi.org/project/pycontractions/)
 ### `pip install contractions` [link](https://pypi.org/project/contractions/)
 ### `pip install gensim` [link](https://pypi.org/project/gensim/)
-### `pip install num2words [link](https://pypi.org/project/num2words/)`
+### `pip install num2words` [link](https://pypi.org/project/num2words/)
+
 
 
 ## Information In needed
